@@ -1,4 +1,4 @@
-const port = 3000;
+const port = 3001;
 
 // Server imports
 const express = require('express');
@@ -26,10 +26,13 @@ async function getMartianAccountsAptosAmount(mnemonic) {
     const walletAccount = await aptosWeb3.WalletClient.getAccountFromMnemonic(mnemonic);
 
     const address = walletAccount.address().toString();
+    const balance = await walletClient.getBalance(address);
 
     console.log('Address:', address);
     console.log('walletAccount: ', JSON.stringify(walletAccount));
     console.log('Balance:', await walletClient.getBalance(address));
+
+    return [address, balance];
 }
 
 app.get('/', (req, res) => {
@@ -41,9 +44,17 @@ app.post('/getAccountResources', async (req, res) => {
     console.log('Get account resources endpoint was hit.');
     console.log(req.body);
 
-    await getMartianAccountsAptosAmount(req.body.mneumonic);
+    const account_details = await getMartianAccountsAptosAmount(req.body.mneumonic);
 
-    res.status(200).send('Get account resources endpoint was hit.');
+    const json_response = {
+        "address": account_details[0],
+        "balance": account_details[1]
+    }
+
+    console.log(json_response);
+    
+    res.status(200).send(json_response);
+
 });
 
 // async function estimateGasPrice(){
