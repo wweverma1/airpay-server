@@ -173,4 +173,4 @@ app.post("/airpayTransaction", async (req, res) => {
     });
 });
 
-app.listen(process.env.PORT || port, () => console.log(`Express app istening at http::/localhost:${port}`));
+app.listen(process.env.PORT || port, () => console.log(`Express app listening at http::/localhost:${port}`));
