@@ -135,7 +135,8 @@ app.post('/getAccountResources', async (req, res) => {
 
     const json_response = {
         "address": address,
-        "balance": balance
+        "token_balance": token_balance,
+        "nft_balance": 0 // hard-coding for now
     }
     
     return res.status(200).json(json_response);
