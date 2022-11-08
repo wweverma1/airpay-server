@@ -27,14 +27,18 @@ const REJECT = 402;
 async function getMartianAccountsAptosAmount(mnemonic) {
     console.log("\n=== Wallet Login ===");
 
-    const address = walletAccount.address().toString();
-    const balance = await walletClient.getBalance(address);
+    try {
+        const walletAccount = await aptosWeb3.WalletClient.getAccountFromMnemonic(mnemonic);
+        const address = walletAccount.address().toString();
+        const balance = await walletClient.getBalance(address);
+        return {address, balance};
+    } catch (error) {
+        return error;
+    }
 
-    console.log('Address:', address);
-    console.log('walletAccount: ', JSON.stringify(walletAccount));
-    console.log('Balance:', await walletClient.getBalance(address));
-
-    return [address, balance];
+    // console.log('Address:', address);
+    // console.log('walletAccount: ', JSON.stringify(walletAccount));
+    // console.log('Balance:', await walletClient.getBalance(address));
 }
 
 async function aptosBlockchainTransaction(user_address, public_key, signature, transaction_amount){
@@ -116,33 +120,29 @@ app.get('/', (req, res) => {
 });
 
 app.post('/getAccountResources', async (req, res) => {
-    console.log('Get account resources endpoint was hit.');
-    console.log(req.body);
 
-    if (!req.body.mneumonic) {
-        return res.status(400).send(new Error('Invalid mnemonic'));
+    if (!req.body.mnemonic) {
+        res.statusMessage = "Invalid mnemonic";
+        return res.status(400).end();
     }
 
-    const account_details = await getMartianAccountsAptosAmount(req.body.mneumonic);
+    const {address, balance} = await getMartianAccountsAptosAmount(req.body.mnemonic);
 
-    if(!account_details || !account_details.length) {
-        return res.status(400).send(new Error('WTF'));
+    if(!address && !balance) {
+        res.statusMessage = "acount details undefined";
+        return res.status(400).end();
     }
 
     const json_response = {
-        "address": account_details[0],
-        "balance": account_details[1]
+        "address": address,
+        "balance": balance
     }
-
-    console.log(json_response);
     
-    return res.status(200).send(json_response);
+    return res.status(200).json(json_response);
 
 });
 
 app.post('/getCard', async (req, res) => {
-    console.log('Get card endpoint was hit.');
-    console.log(req.body);
 
     const json_response = {
         "cardholder_name": "David Cholariia",
@@ -150,10 +150,8 @@ app.post('/getCard', async (req, res) => {
         "cvc": "534",
         "expiration_date": "0624"
     }
-
-    console.log(json_response);
     
-    res.status(200).send(json_response);
+    return res.status(200).json(json_response);
 });
 
 app.post("/airpayTransaction", async (req, res) => {
