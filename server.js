@@ -119,7 +119,15 @@ app.post('/getAccountResources', async (req, res) => {
     console.log('Get account resources endpoint was hit.');
     console.log(req.body);
 
+    if (!req.body.mneumonic) {
+        return res.status(400).send(new Error('Invalid mnemonic'));
+    }
+
     const account_details = await getMartianAccountsAptosAmount(req.body.mneumonic);
+
+    if(!account_details || !account_details.length) {
+        return res.status(400).send(new Error('WTF'));
+    }
 
     const json_response = {
         "address": account_details[0],
@@ -128,7 +136,7 @@ app.post('/getAccountResources', async (req, res) => {
 
     console.log(json_response);
     
-    res.status(200).send(json_response);
+    return res.status(200).send(json_response);
 
 });
 
