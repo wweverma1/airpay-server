@@ -17,11 +17,13 @@ const FAUCET_URL = "https://faucet.devnet.aptoslabs.com";
 const walletClient = new aptosWeb3.WalletClient(NODE_URL, FAUCET_URL);
 const client = new aptosWeb3.AptosClient(NODE_URL);
 
+// ------ Constants ------
 const ACCEPT = 200;
 const REJECT = 402;
+// ------ Constants ------
 
+// ------ Helper functions ------
 async function getMartianAccountsAptosAmount(mnemonic) {
-    // create new wallet
     console.log("\n=== Wallet Login ===");
     const walletAccount = await aptosWeb3.WalletClient.getAccountFromMnemonic(mnemonic);
 
@@ -34,48 +36,6 @@ async function getMartianAccountsAptosAmount(mnemonic) {
 
     return [address, balance];
 }
-
-app.get('/', (req, res) => {
-    console.log(req.body.first_name);
-    res.status(200).send('hello!');
-});
-
-app.post('/getAccountResources', async (req, res) => {
-    console.log('Get account resources endpoint was hit.');
-    console.log(req.body);
-
-    const account_details = await getMartianAccountsAptosAmount(req.body.mneumonic);
-
-    const json_response = {
-        "address": account_details[0],
-        "balance": account_details[1]
-    }
-
-    console.log(json_response);
-    
-    res.status(200).send(json_response);
-
-});
-
-// async function estimateGasPrice(){
-//     estimate_gas_price = 0
-
-//     var options = {
-//         method: 'GET',
-//         url: 'https://fullnode.devnet.aptoslabs.com/v1/estimate_gas_price',
-//         headers: {'Content-Type': 'application/json'}
-//       };
-
-//       axios.request(options).then(function (response) {
-//         estimate_gas_price = response.data.gas_estimate
-
-//         console.log(response.data.gas_estimate);
-//       }).catch(function (error) {
-//         console.error(error);
-//       });
-
-//       return estimate_gas_price
-// }
 
 async function aptosBlockchainTransaction(user_address, public_key, signature, transaction_amount){
 
@@ -124,8 +84,53 @@ async function aptosBlockchainTransaction(user_address, public_key, signature, t
         console.error(error);
     });
 
-    return response_status;    
+    return response_status;
 }
+
+// async function estimateGasPrice(){
+//     estimate_gas_price = 0
+
+//     var options = {
+//         method: 'GET',
+//         url: 'https://fullnode.devnet.aptoslabs.com/v1/estimate_gas_price',
+//         headers: {'Content-Type': 'application/json'}
+//       };
+
+//       axios.request(options).then(function (response) {
+//         estimate_gas_price = response.data.gas_estimate
+
+//         console.log(response.data.gas_estimate);
+//       }).catch(function (error) {
+//         console.error(error);
+//       });
+
+//       return estimate_gas_price
+// }
+// ------ Helper functions ------
+
+
+// ------ Endpoints ------
+app.get('/', (req, res) => {
+    console.log(req.body.first_name);
+    res.status(200).send('hello!');
+});
+
+app.post('/getAccountResources', async (req, res) => {
+    console.log('Get account resources endpoint was hit.');
+    console.log(req.body);
+
+    const account_details = await getMartianAccountsAptosAmount(req.body.mneumonic);
+
+    const json_response = {
+        "address": account_details[0],
+        "balance": account_details[1]
+    }
+
+    console.log(json_response);
+    
+    res.status(200).send(json_response);
+
+});
 
 app.post("/airpayTransaction", async (req, res) => {
 
@@ -172,5 +177,6 @@ app.post("/airpayTransaction", async (req, res) => {
         }
     });
 });
+// ------ Endpoints ------
 
 app.listen(process.env.PORT || port, () => console.log(`Express app listening at http::/localhost:${port}`));
