@@ -126,7 +126,7 @@ app.post('/getAccountResources', async (req, res) => {
         return res.status(400).end();
     }
 
-    const {address, balance} = await getMartianAccountsAptosAmount(req.body.mnemonic);
+    const {address, balance} = await getMartianAccountsAptosAmount('retire rug permit broccoli swear million settle success shrimp mandate spike boil'); // hard-coding for now, instead of req.body.mnemonic
 
     if(!address && !balance) {
         res.statusMessage = "acount details undefined";
