@@ -30,8 +30,8 @@ async function getMartianAccountsAptosAmount(mnemonic) {
     try {
         const walletAccount = await aptosWeb3.WalletClient.getAccountFromMnemonic(mnemonic);
         const address = walletAccount.address().toString();
-        const balance = await walletClient.getBalance(address);
-        return {address, balance};
+        const token_balance = await walletClient.getBalance(address);
+        return {address, token_balance};
     } catch (error) {
         return error;
     }
