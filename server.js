@@ -26,7 +26,6 @@ const REJECT = 402;
 // ------ Helper functions ------
 async function getMartianAccountsAptosAmount(mnemonic) {
     console.log("\n=== Wallet Login ===");
-    const walletAccount = await aptosWeb3.WalletClient.getAccountFromMnemonic(mnemonic);
 
     const address = walletAccount.address().toString();
     const balance = await walletClient.getBalance(address);
