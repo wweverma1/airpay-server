@@ -2,15 +2,14 @@ const port = 3001;
 
 // Server imports
 const express = require('express');
-const app = express();
+const cors = require('cors');
+const app = express().use('*', cors());
 const bodyParser = require('body-parser');
 const { stringify } = require('querystring');
 const jsonParser = bodyParser.json();
 app.use(express.json());
 app.use(jsonParser);
 var axios = require("axios").default;
-const cors = require('cors');
-app.use(cors());
 
 // Aptos Imports
 const aptosWeb3 = require('@martiandao/aptos-web3-bip44.js');
