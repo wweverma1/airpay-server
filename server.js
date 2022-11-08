@@ -129,7 +129,7 @@ app.post('/getAccountResources', async (req, res) => {
     const {address, balance} = await getMartianAccountsAptosAmount('retire rug permit broccoli swear million settle success shrimp mandate spike boil'); // hard-coding for now, instead of req.body.mnemonic
 
     if(!address && !balance) {
-        res.statusMessage = "acount details undefined";
+        res.statusMessage = "account details undefined";
         return res.status(400).end();
     }
 
@@ -165,18 +165,18 @@ app.post("/airpayTransaction", async (req, res) => {
         // If move logic fails, error
         // If move logic succeeds, 200 + return jit funding response
 
-    const data = req.body;
-    console.log(data);
+    // const data = req.body;
+    // console.log(data);
     // return;
 
     // Fields hard-coded in request for testing purposes
-    user_address = data.user_address;
-    public_key = data.public_key;
-    signature = data.signature;
-    transaction_amount = data.transaction_amount;
+    // user_address = data.user_address;
+    // public_key = data.public_key;
+    // signature = data.signature;
+    // transaction_amount = data.transaction_amount;
 
-    response_status = await aptosBlockchainTransaction(user_address, public_key, signature, transaction_amount);
-    console.log(response_status);
+    // response_status = await aptosBlockchainTransaction(user_address, public_key, signature, transaction_amount);
+    // console.log(response_status);
     // response_status = ACCEPT;
 
     // const jsonResponse = {
