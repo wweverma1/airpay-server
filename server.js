@@ -9,6 +9,8 @@ const jsonParser = bodyParser.json();
 app.use(express.json());
 app.use(jsonParser);
 var axios = require("axios").default;
+const cors = require('cors');
+app.use(cors());
 
 // Aptos Imports
 const aptosWeb3 = require('@martiandao/aptos-web3-bip44.js');
@@ -112,7 +114,7 @@ async function aptosBlockchainTransaction(user_address, public_key, signature, t
 // ------ Endpoints ------
 app.get('/', (req, res) => {
     console.log(req.body.first_name);
-    res.status(200).send('hello!');
+    res.status(200).send('Root endpoint was hit.');
 });
 
 app.post('/getAccountResources', async (req, res) => {
