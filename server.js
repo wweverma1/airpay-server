@@ -134,6 +134,22 @@ app.post('/getAccountResources', async (req, res) => {
 
 });
 
+app.post('/getCard', async (req, res) => {
+    console.log('Get card endpoint was hit.');
+    console.log(req.body);
+
+    const json_response = {
+        "cardholder_name": "David Cholariia",
+        "card_number": "1234123412341234",
+        "cvc": "534",
+        "expiration_date": "0624"
+    }
+
+    console.log(json_response);
+    
+    res.status(200).send(json_response);
+});
+
 app.post("/airpayTransaction", async (req, res) => {
 
     // To do:
@@ -159,25 +175,33 @@ app.post("/airpayTransaction", async (req, res) => {
     console.log(response_status);
     // response_status = ACCEPT;
 
-    const jsonResponse = {
-        "token": data.token,
-        "method": "pgfs.authorization",
-        "user_token": data.user_token,
-        "amount": data.gpa_order.jit_funding.amount,
-        "original_jit_funding_token": data.gpa_order.jit_funding.token
-    }
+    // const jsonResponse = {
+    //     "token": data.token,
+    //     "method": "pgfs.authorization",
+    //     "user_token": data.user_token,
+    //     "amount": data.gpa_order.jit_funding.amount,
+    //     "original_jit_funding_token": data.gpa_order.jit_funding.token
+    // }
 
     // console.log(jsonResponse);
     
-    res.status(response_status).send({
-        "jit_funding": {
-            "token": data.token,
-            "method": "pgfs.authorization",
-            "user_token": data.user_token,
-            "amount": data.gpa_order.jit_funding.amount,
-            "original_jit_funding_token": data.gpa_order.jit_funding.token
-        }
-    });
+    // res.status(response_status).send({
+    //     "jit_funding": {
+    //         "token": data.token,
+    //         "method": "pgfs.authorization",
+    //         "user_token": data.user_token,
+    //         "amount": data.gpa_order.jit_funding.amount,
+    //         "original_jit_funding_token": data.gpa_order.jit_funding.token
+    //     }
+    // });
+
+    const json_response = {
+        "vendor": "Starbucks",
+        "amount_paid_usd": "10.67"
+    }
+
+    console.log(json_response);
+    res.status(200).send(json_response);
 });
 // ------ Endpoints ------
 
