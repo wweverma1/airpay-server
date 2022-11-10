@@ -143,13 +143,21 @@ app.post('/getAccountResources', async (req, res) => {
 
 });
 
-app.post('/getCard', async (req, res) => {
+app.get('/getCard', async (req, res) => {
 
     const json_response = {
-        "cardholder_name": "David Cholariia",
-        "card_number": "1234123412341234",
-        "cvc": "534",
-        "expiration_date": "0624"
+        "card1": {
+            "cardholder_name": "David Cholariia",
+            "card_number": "1234123412345168",
+            "cvc": "534",
+            "expiration_date": "0624"
+        },
+        "card2": {
+            "cardholder_name": "David Cholariia",
+            "card_number": "1234123412341241",
+            "cvc": "497",
+            "expiration_date": "0727"
+        }
     }
     
     return res.status(200).json(json_response);
@@ -201,8 +209,11 @@ app.post("/airpayTransaction", async (req, res) => {
     // });
 
     const json_response = {
+        "category": "Purchase",
         "vendor": "Starbucks",
-        "amount_paid_usd": "10.67"
+        "amount_paid_usd": "10.67",
+        "swap_price_impact": "0.1",
+        "fees": "0.3"
     }
 
     console.log(json_response);
