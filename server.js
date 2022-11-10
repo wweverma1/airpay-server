@@ -19,6 +19,9 @@ const FAUCET_URL = "https://faucet.testnet.aptoslabs.com";
 const walletClient = new aptosWeb3.WalletClient(NODE_URL, FAUCET_URL);
 const client = new aptosWeb3.AptosClient(NODE_URL);
 
+// Conversion imports
+const fiatAptosConversion = require('./price_conversion/fiatAptosConversion');
+
 
 // ------ Constants ------
 const ACCEPT = 200;
@@ -30,19 +33,16 @@ const ACCOUNT_PRIVATE_KEY = '0x5ef3664d7687b26acc5a4ba76291f993b23956e2d819fe643
 // ------ Helper functions ------
 async function getMartianAccountsAptosAmount(mnemonic) {
     console.log("\n=== Wallet Login ===");
+    console.log(mnemonic);
 
     try {
         const walletAccount = await aptosWeb3.WalletClient.getAccountFromMnemonic(mnemonic);
-        const address = walletAccount.address().toString();
+        const address = walletAccount.address().hexString;
         const token_balance = await walletClient.getBalance(address);
         return {address, token_balance};
     } catch (error) {
         return error;
     }
-
-    // console.log('Address:', address);
-    // console.log('walletAccount: ', JSON.stringify(walletAccount));
-    // console.log('Balance:', await walletClient.getBalance(address));
 }
 
 async function runAptosBlockchainTransaction(transaction_amount, ACCOUNT_PRIVATE_KEY){
@@ -59,9 +59,6 @@ async function runAptosBlockchainTransaction(transaction_amount, ACCOUNT_PRIVATE
     );
 
     console.log("Built payload");
-
-    // console.log(sender.address());
-    // return;
 
     const raw = await client.generateRawTransaction(sender.address(), payload);
 
@@ -94,16 +91,18 @@ app.post('/getAccountResources', async (req, res) => {
         return res.status(400).end();
     }
 
-    const {address, token_balance} = await getMartianAccountsAptosAmount('retire rug permit broccoli swear million settle success shrimp mandate spike boil'); // hard-coding for now, instead of req.body.mnemonic
+    const {address, token_balance} = await getMartianAccountsAptosAmount('genius useless salmon emotion quantum pony adult hunt firm suspect physical copper'); // hard-coding for now, instead of req.body.mnemonic
 
     if(!address && !token_balance) {
         res.statusMessage = "Account details undefined";
         return res.status(400).end();
     }
 
+    token_balance_in_usd = await fiatAptosConversion.OctasToFiat(token_balance);
+
     const json_response = {
         "address": address,
-        "token_balance": token_balance,
+        "token_balance": token_balance_in_usd,
         "nft_balance": 0 // hard-coding for now
     }
     
