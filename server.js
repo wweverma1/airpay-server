@@ -103,29 +103,31 @@ app.post('/getAccountResources', async (req, res) => {
     const json_response = {
         "address": address,
         "token_balance": token_balance_in_usd,
-        "nft_balance": 0 // hard-coding for now
+        "nft_balance": '0' // hard-coding for now
     }
     
     return res.status(200).json(json_response);
 
 });
 
-app.get('/getCard', async (req, res) => {
+app.get('/getCards', async (req, res) => {
 
-    const json_response = {
-        "card1": {
+    const json_response = [
+        {
+            "id": "1",
             "cardholder_name": "David Cholariia",
             "card_number": "1234123412345168",
             "cvc": "534",
             "expiration_date": "0624"
         },
-        "card2": {
+        {
+            "id": "2",
             "cardholder_name": "David Cholariia",
             "card_number": "1234123412341241",
             "cvc": "497",
             "expiration_date": "0727"
         }
-    }
+    ]
     
     return res.status(200).json(json_response);
 });
