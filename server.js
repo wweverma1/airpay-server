@@ -118,14 +118,14 @@ app.get('/getCards', async (req, res) => {
             "cardholder_name": "David Carrera",
             "card_number": "1234123412345168",
             "cvc": "534",
-            "expiration_date": "0624"
+            "expiration_date": "06/24"
         },
         {
             "id": "2",
             "cardholder_name": "David Carrera",
             "card_number": "1234123412341241",
             "cvc": "497",
-            "expiration_date": "0727"
+            "expiration_date": "07/27"
         }
     ]
     
