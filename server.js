@@ -99,9 +99,11 @@ app.post('/getAccountResources', async (req, res) => {
     }
 
     console.log(token_balance)
+        
     token_balance_in_usd = await fiatAptosConversion.OctasToFiat(token_balance);
-    
     console.log(token_balance_in_usd);
+    // rate = await getTokenPrice('aptos', 'usd');
+    // console.log(rate);
 
     const json_response = {
         "address": address,
