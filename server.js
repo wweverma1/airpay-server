@@ -99,6 +99,7 @@ app.post('/getAccountResources', async (req, res) => {
     }
 
     token_balance_in_usd = await fiatAptosConversion.OctasToFiat(token_balance);
+    console.log(token_balance_in_usd);
 
     const json_response = {
         "address": address,
@@ -116,14 +117,14 @@ app.get('/getCards', async (req, res) => {
         {
             "id": "1",
             "cardholder_name": "David Carrera",
-            "card_number": "1234123412345168",
+            "card_number": "3742 6732 7890 5168",
             "cvc": "534",
             "expiration_date": "06/24"
         },
         {
             "id": "2",
             "cardholder_name": "David Carrera",
-            "card_number": "1234123412341241",
+            "card_number": "4116 3212 3440 1241",
             "cvc": "497",
             "expiration_date": "07/27"
         }
