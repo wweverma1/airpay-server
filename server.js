@@ -115,14 +115,14 @@ app.get('/getCards', async (req, res) => {
     const json_response = [
         {
             "id": "1",
-            "cardholder_name": "David Cholariia",
+            "cardholder_name": "David Carrera",
             "card_number": "1234123412345168",
             "cvc": "534",
             "expiration_date": "0624"
         },
         {
             "id": "2",
-            "cardholder_name": "David Cholariia",
+            "cardholder_name": "David Carrera",
             "card_number": "1234123412341241",
             "cvc": "497",
             "expiration_date": "0727"
