@@ -100,6 +100,7 @@ app.post('/getAccountResources', async (req, res) => {
 
     console.log(token_balance)
     token_balance_in_usd = await fiatAptosConversion.OctasToFiat(token_balance);
+    
     console.log(token_balance_in_usd);
 
     const json_response = {
