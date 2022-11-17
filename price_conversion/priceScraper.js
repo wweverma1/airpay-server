@@ -41,7 +41,7 @@ async function scrapePrice(ticker){
     await Promise.reject(new Error('scrapePrice'));
 }
 
-async function getCurrentPrice(ticker){
+async function getCurrentPrice(ticker) {
     await scrapePrice(ticker).catch(() => {});
     return crypto_currency_prices//.slice(-1)
 }
