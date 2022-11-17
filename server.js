@@ -54,7 +54,7 @@ async function runAptosBlockchainTransaction(transaction_amount, ACCOUNT_PRIVATE
             "0x7899cc9c5b8ef15605ef46adc52d004db3caa5e4b2bb64da46cb7b9363f8e934::router", // Address and module/script name
             "deposit_to_vault", // Function
             [], // Argument types (optional?)
-            ['10000000'] // Arguments bcsSerializeUint64(100000)
+            [aptos.BCS.bcsSerializeUint64(100000)] // Arguments
         )
     );
 
