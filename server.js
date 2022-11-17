@@ -54,7 +54,7 @@ async function runAptosBlockchainTransaction(transaction_amount, ACCOUNT_PRIVATE
             "0x7899cc9c5b8ef15605ef46adc52d004db3caa5e4b2bb64da46cb7b9363f8e934::router", // Address and module/script name
             "deposit_to_vault", // Function
             [], // Argument types (optional?)
-            [bcsSerializeUint64(100000)] // Arguments
+            ['10000000'] // Arguments bcsSerializeUint64(100000)
         )
     );
 
@@ -80,7 +80,7 @@ async function runAptosBlockchainTransaction(transaction_amount, ACCOUNT_PRIVATE
 
 // ------ Endpoints ------
 app.get('/', (req, res) => {
-    console.log(req.body.first_name);
+    console.log('Root endpoint was hit!');
     res.status(200).send('Root endpoint was hit.');
 });
 
