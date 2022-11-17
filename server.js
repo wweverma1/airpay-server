@@ -53,8 +53,8 @@ async function runAptosBlockchainTransaction(transaction_amount, ACCOUNT_PRIVATE
         aptos.TxnBuilderTypes.EntryFunction.natural(
             "0x7899cc9c5b8ef15605ef46adc52d004db3caa5e4b2bb64da46cb7b9363f8e934::router", // Module
             "deposit_to_vault", // Function
-            [], // Type arguments ("0x1::aptos_coin::AptosCoin")
-            ["1000000"] // Arguments (bcsSerializeUint64(1000000))
+            ["0x1::aptos_coin::AptosCoin"], // Type arguments
+            [bcsSerializeUint64(1000000)] // Arguments
         )
     );
 
