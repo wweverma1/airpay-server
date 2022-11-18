@@ -142,7 +142,7 @@ app.post("/airpayTransaction", async (req, res) => {
     const data = req.body;
     console.log(data);
     
-    await runAptosBlockchainTransaction(100000, ACCOUNT_PRIVATE_KEY);
+    // await runAptosBlockchainTransaction(100000, ACCOUNT_PRIVATE_KEY);
 
     const json_response = {
         "category": "Purchase",
