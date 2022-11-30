@@ -98,7 +98,7 @@ app.post('/getAccountResources', async (req, res) => {
         return res.status(400).end();
     }
 
-    console.log(token_balance)
+    console.log(token_balance);
         
     token_balance_in_usd = await fiatAptosConversion.OctasToFiat(token_balance);
     console.log(token_balance_in_usd);
@@ -107,7 +107,7 @@ app.post('/getAccountResources', async (req, res) => {
 
     const json_response = {
         "address": address,
-        "token_balance": 14.80, // for demo purposes
+        "token_balance": 9.80, // for demo purposes
         "nft_balance": '0' // hard-coding for now
     }
     
