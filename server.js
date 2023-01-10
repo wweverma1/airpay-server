@@ -33,8 +33,6 @@ const ACCOUNT_PRIVATE_KEY = '0x5ef3664d7687b26acc5a4ba76291f993b23956e2d819fe643
 // ------ Helper functions ------
 async function getMartianAccountsAptosAmount(mnemonic) {
     console.log("\n=== Wallet Login ===");
-    console.log(mnemonic);
-
     try {
         const walletAccount = await aptosWeb3.WalletClient.getAccountFromMnemonic(mnemonic);
         const address = walletAccount.accountAddress.hexString;
