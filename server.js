@@ -37,7 +37,7 @@ async function getMartianAccountsAptosAmount(mnemonic) {
 
     try {
         const walletAccount = await aptosWeb3.WalletClient.getAccountFromMnemonic(mnemonic);
-        const address = walletAccount.address().hexString;
+        const address = walletAccount.accountAddress.hexString;
         const token_balance = await walletClient.getBalance(address);
         return {address, token_balance};
     } catch (error) {
@@ -85,13 +85,12 @@ app.get('/', (req, res) => {
 });
 
 app.post('/getAccountResources', async (req, res) => {
-
     if (!req.body.mnemonic) {
         res.statusMessage = "Invalid mnemonic";
         return res.status(400).end();
     }
 
-    const {address, token_balance} = await getMartianAccountsAptosAmount('genius useless salmon emotion quantum pony adult hunt firm suspect physical copper'); // hard-coding for now, instead of req.body.mnemonic
+    const {address, token_balance} = await getMartianAccountsAptosAmount(req.body.mnemonic);
 
     if(!address && !token_balance) {
         res.statusMessage = "Account details undefined";

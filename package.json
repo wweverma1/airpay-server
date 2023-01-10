@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "devstart": "nodemon ./server.js"
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "@martiandao/aptos-web3-bip44.js": "^1.2.19",
