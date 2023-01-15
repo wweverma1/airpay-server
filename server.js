@@ -21,6 +21,7 @@ const client = new aptosWeb3.AptosClient(NODE_URL);
 
 // Conversion imports
 const fiatAptosConversion = require('./price_conversion/fiatAptosConversion');
+const { TypeTag, TypeTagU8, TypeTagAddress } = require('@martiandao/aptos-web3-bip44.js/dist/aptos_types');
 
 
 // ------ Constants ------
@@ -43,35 +44,45 @@ async function getMartianAccountsAptosAmount(mnemonic) {
     }
 }
 
-async function runAptosBlockchainTransaction(transaction_amount, ACCOUNT_PRIVATE_KEY){
+async function runAptosBlockchainTransaction(transaction_amount, private_key){
     const client = new aptos.AptosClient(NODE_URL);
-    const sender = new aptos.AptosAccount(aptos.HexString.ensure(ACCOUNT_PRIVATE_KEY).toUint8Array());
+    const sender = new aptos.AptosAccount(aptos.HexString.ensure(private_key).toUint8Array());
+    const tyArgs = new aptos.TxnBuilderTypes.TypeTagStruct(
+        aptos.TxnBuilderTypes.StructTag.fromString("0x1::aptos_coin::AptosCoin")
+    );
 
     const payload = new aptos.TxnBuilderTypes.TransactionPayloadEntryFunction(
         aptos.TxnBuilderTypes.EntryFunction.natural(
             "0x7899cc9c5b8ef15605ef46adc52d004db3caa5e4b2bb64da46cb7b9363f8e934::router", // Module
             "deposit_to_vault", // Function
-            ["0x1::aptos_coin::AptosCoin"], // Type arguments
-            ["1000000"], // Arguments (bcsSerializeUint64(1000000))
+            [tyArgs], // Type arguments
+            [bcsSerializeUint64(transaction_amount*100000000)], // Arguments (bcsSerializeUint64(1000000))
         )
     );
 
     console.log("Built payload");
-
+    console.log(payload)
     const raw = await client.generateRawTransaction(sender.address(), payload);
 
     console.log("Built raw transaction");
-
+    console.log(raw)
     const signed = aptos.AptosClient.generateBCSTransaction(sender, raw);
+    // const signed = aptos.AptosClient.signTransaction(sender, raw);
 
     console.log("Built signed transaction " + signed);
 
-    const response = await client.submitSignedBCSTransaction(signed);
+    // const response = await client.submitSignedBCSTransaction(signed);
+    const response = await client.submitTransaction(signed);
 
     console.log(`Response: ${response.body}`);
 
     // May not be needed?
     await client.waitForTransaction(response.hash);
+
+    // checking if the transaction was successful
+    // if success
+    return true;
+    // else return false
 }
 // ------ Helper functions ------
 
@@ -139,18 +150,26 @@ app.post("/airpayTransaction", async (req, res) => {
     const data = req.body;
     console.log(data);
     
-    // await runAptosBlockchainTransaction(100000, ACCOUNT_PRIVATE_KEY);
+    const transactionStatus = await runAptosBlockchainTransaction(data.transactionAmount, data.privateKey);
+    if (transactionStatus) {
+        // if success then proceed with hippo labs
+        res.status(200).send('Coins moved to vault');
+    }
+    else {
+        res.statusMessage = "Transaction failed";
+        return res.status(400).end();
+    }
 
-    const json_response = {
-        "category": "Purchase",
-        "vendor": "Starbucks",
-        "amount_paid_usd": "10.67",
-        "swap_price_impact": "0.1",
-        "fees": "0.3"
-    };
+    // const json_response = {
+    //     "category": "Purchase",
+    //     "vendor": "Starbucks",
+    //     "amount_paid_usd": "10.67",
+    //     "swap_price_impact": "0.1",
+    //     "fees": "0.3"
+    // };
 
-    console.log(json_response);
-    res.status(200).send(json_response);
+    // console.log(json_response);
+    // res.status(200).send(json_response);
 });
 // ------ Endpoints ------
 
